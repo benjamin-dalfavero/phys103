@@ -1,0 +1,67 @@
+%% Homework 3
+% Benjamin DalFavero
+% 23 April 2019
+
+%% Problem 4
+
+% numerical solution from orbit.m
+r0 = 1;
+v0 = pi;
+tau = 0.01;
+GM = 4*pi;
+m = 1;
+[rplot, thplot, tplot, energy] = orbit(r0, v0, tau, 1000);
+
+% find eccentricity
+% square of angular momentum
+L2 = (r0 * v0) ^ 2;
+% get energy from initial conditions
+KE = m * (v0 ^ 2) / 2;
+PE = - GM * m / r0;
+E = KE - PE;
+ecc = sqrt(1 + 2*E*L2/((GM)^2 * m^3));
+
+% find max radial distance
+rmax = max(abs(rplot));
+a = rmax / (1 + ecc);
+
+% find theoretical radial distance
+r = @(th) (a * (1 - ecc^2)) / (1 - ecc*cos(th));
+r_theo = arrayfun(r, thplot);
+
+% find error and plot vs angle
+err = (rplot - r_theo) / r_theo;
+plot(err, thplot)
+
+%% Problem 12
+
+%% Problem 14
+
+% declare constants
+r0 = 1; % AU
+v0 = pi/2; % AU/yr
+alpha = 0.2;
+steps = 300;
+GM = 4*pi;
+param = [GM, alpha];
+% get theoretical angle and radial distance
+[rplot, thplot, rplot] = orbit_prec(r0, v0, param, steps); 
+
+%% Problem 5
+% van der Pol equation
+% times step values
+tau = [0.0001, 0.01, 0.02, 0.05];
+% initial conditions
+s0 = [1, 1]';
+% plot solution for each tau
+hold on
+for i = 1:length(tau)
+    % reset accumulators
+    y = [s0(1)];
+    t = [s0(2)];
+    % add results to accumulators for each time step
+    nstep = 10 / tau(i);
+    for j = 1:nstep
+    end
+end
+hold off

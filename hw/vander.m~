@@ -1,0 +1,13 @@
+% solution to van der Pol equation
+
+tau = [0.1, 0.01, 0.001, 0.0001];
+
+hold on
+for i = 1:length(tau)
+    nstep = 10 / tau; % steps needed to solve
+    state = [1, 1]';
+    t = 0
+    for j = 1:nstep
+        % add values to 
+        yplot(j) = state(2);
+        tplot(j) = t;

@@ -1,0 +1,21 @@
+% problem 17: solve the kepler equation
+
+% constants
+n = 300; % steps to be taken
+ecc = [0.1, 0.9]; % eccentricity
+M = linspace(0, 2*pi, n); % mean anomoly
+E_num = zeros(n, 1); % accumulators for results
+E_theo = zeros(n, 1);
+j = 1:400; % values of indices in theoretical sol'n
+
+% calculate numerical and theoretical solutions
+for e in ecc
+    for i = 1:n
+        % calculate numerical solution by newton's method
+        E = 0.1; % initial guess
+        for ii = 1:50
+            f = E - e*sin(E) - M; % value of function
+            df = 1 - e*cos(E); % derivative value
+            E = E - (f / df); % compute next guess
+        end
+        E_num(i) = E; % put numerical value in accumulator

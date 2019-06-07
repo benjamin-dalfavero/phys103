@@ -1,0 +1,12 @@
+% establish values
+s0 = [1, 1; 2, 2; 1, 1]; % initial conditions
+params = [1, 3; 2, 2; 1, 2]; % parameters for state functions
+
+% solve each situation
+for i = 1:size(s0, 1)
+    % set up initial conditions for problem
+    s = s0(i, :);
+    param = params(i, :);
+    % reset accumulators
+    x = [];
+    y = [];

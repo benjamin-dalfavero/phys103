@@ -1,0 +1,15 @@
+function [f] = dfact(n)
+% find n!!, the double factorial of n.
+% inputs:
+%   n: integer greater than 0
+% outputs:
+%   f: n!!
+if n == 0:
+    f = 0;
+    return
+end
+f = 1;
+for m = n:-2:1
+    f = f * m;
+end
+end

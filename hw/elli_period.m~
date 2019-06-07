@@ -1,0 +1,5 @@
+function [T] = elli_period(L, theta_m)
+% elliptic apprximation of the period for small angles
+g = 9.8; % m / s^2
+T = 2*pi*sqrt(L / g)*(1 + thea_m .^ 2 / 16);
+end

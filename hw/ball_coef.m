@@ -1,0 +1,83 @@
+function [xplot, yplot, dx, dt] = ball_coef(table, airFlag, tau)
+% find trajectory for a ball.
+% inputs:
+%   airFlag: 0 or 1 to determine air resistance in problem
+%   tau: time step
+
+%* Set initial position and velocity of the baseball
+y1 = 0;
+r1 = [0, y1];     % Initial vector position
+speed = 50; % m/s
+theta = 45; % deg
+v1 = [speed*cos(theta*pi/180), ...
+      speed*sin(theta*pi/180)];     % Initial velocity
+r = r1;  v = v1;  % Set initial position and velocity
+
+%* Set physical parameters (mass, Cd, etc.)
+Cd = 0.35;      % Drag coefficient (dimensionless)
+area = 4.3e-3;  % Cross-sectional area of projectile (m^2)
+grav = 9.81;    % Gravitational acceleration (m/s^2)
+mass = 0.145;   % Mass of projectile (kg)
+if( airFlag == 0 )
+  rho = 0;      % No air resistance
+else
+  rho = 1.2;    % Density of air (kg/m^3)
+end
+
+air_const = -0.5*Cd*rho*area/mass;  % Air resistance constant
+
+%* Loop until ball hits ground or max steps completed
+maxstep = 1000;   % Maximum number of steps
+for istep=1:maxstep
+
+  %* Record position (computed and theoretical) for plotting
+  xplot(istep) = r(1);   % Record trajectory for plot
+  yplot(istep) = r(2);
+  t = (istep-1)*tau;     % Current time
+  xNoAir(istep) = r1(1) + v1(1)*t;
+  yNoAir(istep) = r1(2) + v1(2)*t - 0.5*grav*t^2;
+  
+  if table == 1
+    % use data from table to find new Cd
+    % first convert velocity from m/s to mph
+    v_mph = norm(v)* 2.23649; % mph
+    % table values
+    v_table = [0, 25, 50, 75, 100, 125];
+    C_table = [0.5, 0.5, 0.5, 0.4, 0.28, 0.23];
+    Cd = interp1(v_table, C_table, v_mph);
+    % detect errors in interpolation
+    if Cd < 0.23
+        disp("out of range")
+        disp(Cd)
+    end
+  else
+    Cd = 0.35;
+  end
+  
+  air_const = -0.5*Cd*rho*area/mass;  % Air resistance constant
+  
+  %* Calculate the acceleration of the ball 
+  accel = air_const*norm(v)*v;   % Air resistance
+  accel(2) = accel(2)-grav;      % Gravity
+  
+  %* Calculate the new position and velocity using Euler method
+  r = r + tau*v;                 % Euler step
+  v = v + tau*accel;     
+  
+  %* If ball reaches ground (y<0), break out of the loop
+  if( r(2) < 0 )  
+    xplot(istep+1) = r(1);  % Record last values computed
+	yplot(istep+1) = r(2);
+    break;                  % Break out of the for loop
+  end 
+end
+
+% find the range and time of flight by interpolation
+% interpolate x as a function of y at yi = 0
+x = xplot((length(xplot) - 2):end);
+y = yplot((length(yplot) - 2):end);
+dx = intrpf(0, y, x);
+% use a similar method to find t as a function of y
+tp = [(t- 2*tau), (t - tau), t];
+dt = intrpf(0, y, tp);
+end

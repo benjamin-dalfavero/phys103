@@ -1,0 +1,20 @@
+#+title: Homework 2: Numerical ODEs
+#+author: Benjamin DalFavero
+#+date: 10 April 2019
+#+latex_header: \usepackage{siunitx}
+
+* Problem 1
+
+Derive the three point derivative rule
+
+$$f'(t) = \frac{-3f(t)+4f(t+\tau)-f(t+2\tau)}{2\tau}+\mathcal(O)(\tau^2)$$
+
+using a Taylor expansion and obtain the explicit error term.
+
+* Problem 2
+
+Problem 3 from text.
+
+#+BEGIN_SRC matlab
+
+#+END_SRC

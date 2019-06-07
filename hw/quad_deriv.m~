@@ -1,0 +1,33 @@
+function sigma = quad_deriv(points, x)
+% find derivative of a function by second order lagrange polynomial
+% inputs:
+%   points: 2x3 matrix of x and y values
+%   x: x point to be queried
+% output: approximate value of derivative
+
+% define x and y points
+x = points(1, :);
+y = points(2, :);
+% sum all terms in approximated derivative
+sigma = 0;
+for i = 1:2
+    % sum x values besides x_i
+    sigma1 = 0;
+    for j = 1:2
+        if j ~= i
+            sigma1 = sigma1 + x(j);
+        end
+    end
+    % product xi - xj for i ~= j
+    prod = 1;
+    for j = 1:2
+        if j ~= i
+            prod = prod * x(i) - x(j);
+        end
+    end
+    % add term of derivative to sum
+    num = (2*x - sigma1) * y(i);
+    sum = sum + (num / prod);
+end
+end
+    

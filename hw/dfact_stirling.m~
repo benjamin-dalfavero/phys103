@@ -1,0 +1,8 @@
+function [d] = dfact_stirling(n)
+% double factorial by stirling's approximation
+if n == 0
+    d = 0;
+elseif mod(n, 2) == 0
+    d = 2^(n/2) * stirling(n/2);
+else
+    d = stirling(n) / s^((n-1)/2) / stirling((n-1)/2);

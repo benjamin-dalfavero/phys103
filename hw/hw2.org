@@ -1,0 +1,68 @@
+#+title: Homework 2: Numerical ODEs
+#+author: Benjamin DalFavero
+#+date: 10 April 2019
+#+latex_header: \usepackage{siunitx}
+
+* Problem 1
+
+Derive the three point derivative rule
+
+$$f'(t) = \frac{-3f(t)+4f(t+\tau)-f(t+2\tau)}{2\tau}+\mathcal(O)(\tau^2)$$
+
+using a Taylor expansion and obtain the explicit error term.
+
+* Problem 2
+
+Problem 3 from text.
+
+#+BEGIN_SRC matlab
+  [range, time] = ball_intrp(1, 0.5);
+  disp(range)
+  disp(time)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+< M A T L A B (R) >
+                  Copyright 1984-2019 The MathWorks, Inc.
+                  R2019a (9.6.0.1072779) 64-bit (glnxa64)
+                               March 8, 2019
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+
+	Student License -- for use by students to meet course requirements
+	and perform academic research at degree granting institutions only.
+
+[range, time] = ball_intrp(1, 0.5);
+
+x =
+
+  113.0909  120.2843  126.8941
+
+
+y =
+
+   22.0948   11.2328   -1.2003
+
+{Index exceeds the number of array elements (1).
+
+Error in intrpf (line 13)
+  + (xi-x(1))*(xi-x(3))/((x(2)-x(1))*(x(2)-x(3)))*y(2) ...
+
+Error in ball_intrp (line 62)
+dt = intrpf(0, y, t);
+}
+disp(range)
+{Not enough input arguments.
+
+Error in range (line 21)
+    y = max(x) - min(x);
+}
+disp(time)
+{Undefined function or variable 'time'.
+}
+#+end_example
+

@@ -1,0 +1,1 @@
+function [yq] = table_look(xq, x, y)

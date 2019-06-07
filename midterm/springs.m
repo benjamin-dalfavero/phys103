@@ -1,0 +1,47 @@
+% problem 3 - two spring system
+
+type spring_funcs.m
+
+k2_vals = linspace(0, 20, 50);
+
+for i = 1:length(k2_vals)
+    % declare constants
+    k1 = 10; % N/m
+    k2 = k2_vals(i);
+    L1 = 0.1; % m
+    L2 = L1;
+    m = 0.1; % kg
+    D = 0.1; % m
+    g = 9.81; % m/s
+    param = [k1, k2, L1, L2, D, m];
+    % parameters for numerical solution
+    tol = 1e-6;
+    s = [0, -(m*g/k1 + L1)]; % initial guess
+
+    % do first step of newton's method
+    [F, D] = spring_funcs(s, param);
+    FDi = F / D; % F * D^-1
+    sn = s - FDi;
+    err = norm(sn - s);
+    s = sn;
+
+    % solve to tolerance
+    while err > tol
+        [F, D] = spring_funcs(s, param);
+        FDi = F / D; % F * D^-1
+        sn = s - FDi;
+        err = abs(sn) - abs(s);
+        s = sn;
+    end
+    
+    % store values to plot
+    xp(i) = s(1);
+    yp(i) = s(2);
+end
+
+% plot values
+hold on
+plot(k2_vals, xp, '*')
+plot(k2_vals, yp, 'o')
+hold off
+legend('x', 'y')
